@@ -1,12 +1,15 @@
-# Opencode Global Config
+# OpenCode Global Config
 
-This folder contains the global Opencode configuration for this computer. It is meant to be edited directly when you want to change the default behavior of Opencode across workspaces.
+This folder contains the global OpenCode configuration for this computer. It is meant to be edited directly when you want to change the default behavior of OpenCode across workspaces.
+
+For more information, see <https://opencode.ai/docs/config/>
 
 ## Contents
 
 - `opencode.json`: the main configuration file for permissions and other global settings.
 - `package.json`: declares the local plugin dependency used by this config.
 - `plugins/env-protection.js`: a custom plugin that blocks tool reads of `.env` files.
+- `agents/`: stores custom agent definitions for specialized workflows and tasks.
 
 ## Current Policy
 
@@ -23,15 +26,15 @@ The `EnvProtection` plugin adds a guard before tool execution. If a `read` tool 
 
 ### How It Loads
 
-`EnvProtection` is loaded automatically by Opencode because it lives in the global plugin directory: `plugins/env-protection.js`.
+`EnvProtection` is loaded automatically by OpenCode because it lives in the global plugins directory.
 
-- Opencode discovers local plugins in `~/.config/opencode/plugins/` at startup.
+- OpenCode discovers local plugins in `~/.config/opencode/plugins/` at startup.
 - The exported async function is invoked once when the plugin loads.
-- The returned hook object registers hook handlers such as `tool.execute.before`, which Opencode runs before tool execution.
+- The returned hook object registers hook handlers such as `tool.execute.before`, which OpenCode runs before tool execution.
 
 ## Notes
 
-- This is a personal configuration directory, not an app project.
-- If you change permissions here, the new defaults apply to Opencode on this machine.
-- Created this folder and the settings therein 2026-03-08 as part of `docker-opencode`
-- Created this README, ran `git init` and the first commit on 2026-05-15.
+- This repository is a personal configuration directory, not an app project.
+- If you change permissions here, the new defaults apply to OpenCode on this machine.
+- I created this folder and the settings therein 2026-03-08 as part of `docker-opencode`
+- I created this README, ran `git init` and the first commit on 2026-05-15.
