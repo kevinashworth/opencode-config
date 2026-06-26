@@ -50,7 +50,7 @@
       "explore": "allow"
     },
     "todoread": "allow",
-    "todowrite": "ask",
+    "todowrite": "allow",
     "webfetch": "allow",
     "websearch": "ask"
   }
