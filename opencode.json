@@ -3,11 +3,18 @@
   "permission": {
     "bash": {
       "*": "ask",
+      "eza *": "allow",
+      "find *": "allow",
       "git commit *": "ask",
       "git diff *": "allow",
       "git log *": "allow",
       "git push *": "ask",
+      "git show *": "allow",
       "git status *": "allow",
+      "grep *": "allow",
+      "head *": "allow",
+      "ls *": "allow",
+      "nl *": "allow",
       "npm install *": "ask",
       "npm run check:spell *": "allow",
       "npm run check:types *": "allow",
@@ -16,7 +23,9 @@
       "npm run test:run *": "allow",
       "npm run typecheck *": "allow",
       "npx *": "ask",
-      "rm -rf *": "deny"
+      "rm *": "deny",
+      "tail *": "allow",
+      "wc *": "allow"
     },
     "codesearch": "ask",
     "doom_loop": "ask",
