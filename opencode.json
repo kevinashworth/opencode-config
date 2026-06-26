@@ -45,7 +45,10 @@
       "*.env.example": "allow"
     },
     "skill": "deny",
-    "task": "ask",
+    "task": {
+      "*": "ask",
+      "explore": "allow"
+    },
     "todoread": "allow",
     "todowrite": "ask",
     "webfetch": "allow",
