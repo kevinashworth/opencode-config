@@ -10,6 +10,7 @@ For more information, see <https://opencode.ai/docs/config/>
 - `package.json`: declares the local plugin dependency used by this config.
 - `plugins/env-protection.js`: a custom plugin that blocks tool reads of `.env` files.
 - `agents/`: stores custom agent definitions for specialized workflows and tasks.
+- `skills/`: stores custom skill definitions for specialized workflows (e.g. code review, audit).
 
 ## Current Policy
 
@@ -38,3 +39,4 @@ The `EnvProtection` plugin adds a guard before tool execution. If a `read` tool 
 - If you change permissions here, the new defaults apply to OpenCode on this machine.
 - I created this folder and the settings therein 2026-03-08 as part of `docker-opencode`
 - I created this README, ran `git init` and the first commit on 2026-05-15.
+- The `skills/` directory was added on 2026-06-26, containing skill definitions for atomic-commits, audit, code-review, code-simplifier, and grill-me.
