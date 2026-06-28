@@ -19,8 +19,6 @@ Do one step. Verify it works. Commit it. Move to the next.
 
 **One commit = one logical change.** Not two things. Not "a feature and its tests." Not "a rename and a behavior change." One thing.
 
-Commit instructions are found in [`.github/copilot.chat.commitMessageGeneration.instructions.md`](../../.github/copilot.chat.commitMessageGeneration.instructions.md). Follow them for clear, consistent commit messages.
-
 Stage only the files that belong to that change. Never `--no-verify`.
 
 ## 3. Stay honest
@@ -28,3 +26,11 @@ Stage only the files that belong to that change. Never `--no-verify`.
 - If a step should split further, split it.
 - If tests break from your change, fix them in the same commit — the unit isn't done until it works.
 - Never amend a previous atomic commit to sneak in more changes. Make a new commit.
+
+## Additional Resources
+
+### Reference Files
+
+For detailed guidance, consult:
+
+- **`references/conventional-commit-message-instructions.md`** - commit message instructions
