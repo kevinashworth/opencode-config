@@ -3,6 +3,7 @@
   "permission": {
     "bash": {
       "*": "ask",
+      "echo *": "allow",
       "eza *": "allow",
       "find *": "allow",
       "git commit *": "ask",
@@ -26,6 +27,7 @@
       "npm run test:run *": "allow",
       "npm run typecheck *": "allow",
       "npx *": "ask",
+      "rg *": "allow",
       "rm *": "deny",
       "tail *": "allow",
       "wc *": "allow"
