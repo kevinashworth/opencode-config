@@ -10,6 +10,7 @@
       "git diff *": "allow",
       "git log *": "allow",
       "git ls-remote": "allow",
+      "git merge-base *": "allow",
       "git push *": "ask",
       "git show *": "allow",
       "git status *": "allow",
