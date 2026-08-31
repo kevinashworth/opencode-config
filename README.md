@@ -40,3 +40,4 @@ The `EnvProtection` plugin adds a guard before tool execution. If a `read` tool 
 - I created this folder and the settings therein 2026-03-08 as part of `docker-opencode`
 - I created this README, ran `git init` and the first commit on 2026-05-15.
 - The `skills/` directory was added on 2026-06-26, containing skill definitions for atomic-commits, audit, code-review, code-simplifier, and grill-me.
+- The `commands/` directory was added on 2026-08-31, but see `.gitignore`.
