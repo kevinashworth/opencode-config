@@ -33,6 +33,10 @@ The plugins load automatically because they live in the global `/plugins` direct
 
 - `plugins/nono-launch-toast.ts`: a custom plugin that displays a toast notification when OpenCode is launched directly, not via a `nono run ...` shell command.
 
+## nono-sandbox
+
+`nono` restricts filesystem access. Tool calls that fail should result in an explanation of the failure and some options for resolving it.
+
 ## Notes
 
 - This repository is a personal configuration directory, not an app project.
