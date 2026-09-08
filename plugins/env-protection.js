@@ -1,5 +1,5 @@
 export const EnvProtection = async () => {
-  console.log("🛡️ EnvProtection plugin initialized.");
+  console.log("my .env protection plugin - initialized");
   return {
     "tool.execute.before": async (input, output) => {
       if (input.tool === "read" && output.args.filePath.includes(".env")) {
