@@ -1,5 +1,5 @@
 .DS_Store
 node_modules
 
-# Resume commands are local-only (not published)
+# Resumé commands are local-only (not published)
 commands/resume*
