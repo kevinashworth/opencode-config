@@ -111,8 +111,8 @@ Updated `README.md` to:
 
 ## Unchanged
 
-- `cli.json` was already in the native V2 format.
-- `service.json` and unrelated settings were untouched.
+- `cli.json` was created automatically by the first V2 terminal client startup, which migrated supported V1 `tui.json` settings and persisted preferences. The generated file is tracked as part of this upgrade.
+- `service.json` is local service state containing a password and remains untracked.
 - Command and skill content was left intact.
 - All unrelated global configuration was preserved.
 
