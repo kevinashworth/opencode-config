@@ -1,5 +1,8 @@
 .DS_Store
 node_modules
 
+# Local OpenCode service state (contains generated password)
+service.json
+
 # Resumé commands are local-only (not published)
 commands/resume*
