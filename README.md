@@ -6,8 +6,8 @@ For more information, see <https://opencode.ai/docs/config/>
 
 ## Contents
 
-- `opencode.json`: the main configuration file for permissions and potentially other global settings.
-- `package.json`: declares the local plugin dependency used by this config.
+- `opencode.json`: the main configuration file for ordered V2 permissions and potentially other global settings.
+- `package.json`: declares the `@opencode/plugin` dependency used by local plugins.
 - `agents/`: custom agent definitions for specialized workflows and tasks.
 - `commands/`: custom commands to run from the prompt inside OpenCode.
 - `skills/`: custom skill definitions (e.g. code review, atomic commits, etc.).
@@ -21,17 +21,17 @@ Currently all commands start with '/resume' and are for my job hunt. These are g
 
 ### Plugins
 
-The plugins load automatically because they live in the global `/plugins` directory.
+The plugins load automatically because they live in the global `/plugins` directory and use the native V2 plugin API (`Plugin.define` with `setup`).
 
 #### env-protection
 
 - `plugins/env-protection.js`: a custom plugin that blocks tool reads of `.env` files.
-- The exported async function is invoked once when the plugin loads. The returned hook object registers a hook handler for `tool.execute.before`, which OpenCode runs before tool execution. If a `read` tool call targets a path containing `.env`, it throws an error to stop the read.
+- `setup` registers a handler for the V2 `tool.execute.before` hook. If a `read` tool call targets a path containing `.env`, it throws an error to stop the read.
 - The current configuration is intentionally restrictive around sensitive files and shell access: Read access is allowed in general, but reading `.env` and `*.env.*` files are denied. Virtually identical permissions exist in `opencode.json`, so this is another layer of protection.
 
 #### nono-launch-toast
 
-- `plugins/nono-launch-toast.ts`: a custom plugin that displays a toast notification when OpenCode is launched directly, not via a `nono run ...` shell command.
+- `plugins/nono-launch-toast/`: a custom plugin with a server part (`index.ts`) and a TUI part (`tui.tsx`). The TUI part displays a toast notification when OpenCode is launched directly, not via a `nono run ...` shell command.
 
 ## nono-sandbox
 
@@ -52,5 +52,5 @@ The plugins load automatically because they live in the global `/plugins` direct
 ## Misc notes to self
 
 2026-09-07
-To add a plugin that is a folder, try this syntax in `opencode.json`. This exact syntax seemed to work, with `index.ts` under `/foo` and importing utils and such from there, but then I abandoned using a folder for the plugin I was working on.
-"plugin": ["./plugins/foo"],
+To add a plugin that is a folder, use the native V2 `plugins` entry with the directory path. V2 requires configured local paths to be directories and loads `index.ts` from it.
+"plugins": [{ "package": "./plugins/foo" }],
