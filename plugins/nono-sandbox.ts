@@ -1,3 +1,4 @@
+import { Plugin } from "@opencode/plugin"
 import * as fs from "fs"
 
 const DENIAL_PATTERN =
@@ -214,52 +215,56 @@ function appendGuidance(result: any, guidance: string): void {
 }
 
 // eslint-disable-next-line
-export const NonoSandboxPlugin = async () => {
-  if (!insideNono()) return {}
+export default Plugin.define({
+  id: "nono-sandbox",
+  async setup(ctx) {
+    if (!insideNono()) return
 
-  const caps = readCaps()
+    const caps = readCaps()
 
-  return {
     // Inject nono context into the system prompt so the model knows the rules
-    ...(caps
-      ? {
-          "experimental.chat.system.transform": async (
-            _input: unknown,
-            output: { system: string[] },
-          ) => {
-            output.system.push(buildSystemContext(caps))
-          },
-        }
-      : {}),
+    if (caps) {
+      await ctx.session.hook("context", (event) => {
+        event.system.push({ type: "text", text: buildSystemContext(caps) })
+      })
+    }
 
     // Custom tool nono_status that outputs caps
-    tool: {
-      nono_status: {
+    await ctx.tool.transform((editor) => {
+      editor.add({
+        name: "nono_status",
         description: "Show nono sandbox status for this opencode session",
-        args: {},
-        execute: async () => ({
-          title: "nono sandbox status",
-          output: buildStatusReport(readCaps()),
-        }),
-      },
-    },
+        input: {
+          type: "object",
+          properties: {},
+          additionalProperties: false,
+        },
+        async execute() {
+          return { content: buildStatusReport(readCaps()) }
+        },
+      })
+    })
 
     // Fires after every tool call. When the result contains a denial
     // signature we append capability context and Option A/B remediation.
-    "tool.execute.after": async (
-      input: { tool: string; sessionID: string; callID: string; args: unknown },
-      result: unknown,
-    ) => {
-      if (!DENIAL_PATTERN.test(JSON.stringify(result))) return
+    await ctx.tool.hook("execute.after", (event) => {
+      const payload = event.status === "completed" ? event.result : event.error
+      if (!DENIAL_PATTERN.test(JSON.stringify(payload))) return
 
       const liveCaps = readCaps()
       if (!liveCaps) return
 
-      const inputText = JSON.stringify(input)
-      const resultText = JSON.stringify(result)
+      const inputText = JSON.stringify(event.input)
+      const resultText = JSON.stringify(payload)
       const blockedPath = extractPath(inputText) ?? extractPath(resultText)
+      const guidance = buildGuidance(liveCaps, blockedPath)
 
-      appendGuidance(result, buildGuidance(liveCaps, blockedPath))
-    },
-  }
-}
+      if (event.status === "completed") {
+        appendGuidance(event.result, guidance)
+      } else {
+        const error = event.error as { message: string }
+        error.message += guidance
+      }
+    })
+  },
+})
