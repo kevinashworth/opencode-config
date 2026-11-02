@@ -4,5 +4,8 @@ node_modules
 # Local OpenCode service state (contains generated password)
 service.json
 
+# Installed nono pack marker
+.nono-opencode-pack-marker
+
 # Resumé commands are local-only (not published)
 commands/resume*
