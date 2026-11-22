@@ -21,7 +21,7 @@ Currently all commands start with '/resume' and are for my job hunt. These are g
 
 ### Plugins
 
-The plugins load automatically because they live in the global `/plugins` directory and use the native V2 plugin API (`Plugin.define` with `setup`).
+The plugins load automatically because they live in the global `/plugins` directory. The V2 loader validates each plugin's default export by shape (`id` plus a `setup` function). Two styles are valid: the `Plugin.define({ id, setup })` helper from `@opencode/plugin`, or a plain object literal export, which keeps single-file plugins self-contained (no dependency on `node_modules`).
 
 #### env-protection
 
@@ -33,9 +33,15 @@ The plugins load automatically because they live in the global `/plugins` direct
 
 - `plugins/nono-launch-toast/`: a custom plugin with a server part (`index.ts`) and a TUI part (`tui.tsx`). The TUI part displays a toast notification when OpenCode is launched directly, not via a `nono run ...` shell command.
 
+#### reply-in-english
+
+- `plugins/reply-in-english.ts`: a minimal plugin that uses the V2 `session.hook("context")` hook to append a standing instruction to the system prompt so assistant replies stay in English.
+
 ## nono-sandbox
 
 `nono` restricts filesystem access. Tool calls that fail should result in an explanation of the failure and some options for resolving it.
+
+The `nono-sandbox` plugin is **not stored in this repo**. It is owned by the nono pack: `nono pull nolabs-ai/opencode` symlinks `plugins/nono-sandbox.ts` from the pack store (under `~/.config/nono/packages/`), and it updates automatically on future `nono pull` runs. A fresh clone therefore needs `nono pull nolabs-ai/opencode` to restore the sandbox guidance. The path is git-ignored so the pack-managed symlink never appears as a stray untracked file.
 
 ## Notes
 

@@ -133,3 +133,22 @@ The following checks passed after the migration:
 - `opencode api skill.list` — all skills are still available.
 - JSON validation for `opencode.json` and `package.json`.
 - `git diff --check` passes.
+
+## Post-merge updates (2026-11-22)
+
+Corrections and changes landed after the initial migration merge. This section supersedes parts of the text above.
+
+### `nono-sandbox` is pack-managed, not stored in this repo
+
+The converted `plugins/nono-sandbox.ts` described above was replaced by a symlink into the nono pack store (`~/.config/nono/packages/nolabs-ai/opencode/plugin/nono-sandbox.ts`), created and maintained by `nono pull nolabs-ai/opencode`. Tracking that absolute-path symlink in git was a portability bug: clones on other machines would get a dangling link and silently lose the sandbox guidance plugin. It is now untracked and git-ignored; the pack restores it on install and updates it automatically on future `nono pull` runs.
+
+### `reply-in-english` plugin added
+
+A new plugin, `plugins/reply-in-english.ts`, appends a standing "Reply to the user in English." instruction via the V2 `session.hook("context")` hook.
+
+### Plugin API style correction
+
+The statement "all local plugins use `Plugin.define({ id, setup })`" was inaccurate. The V2 loader validates each default export by shape (`id` plus `setup`); `Plugin.define` is only an identity helper. Both styles are valid and in use:
+
+- `env-protection` and `nono-launch-toast` use `Plugin.define` (imported from `@opencode/plugin`, resolved via this repo's `node_modules`).
+- `reply-in-english` and the pack-managed `nono-sandbox` export plain object literals, keeping single-file plugins self-contained with no dependency on `node_modules`.
